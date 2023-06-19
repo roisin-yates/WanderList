@@ -8,15 +8,26 @@ const geoUrl =
 
 const Map = () => {
   const [hoveredCountry, setHoveredCountry] = useState(null)
+  const [clickedCountry, setClickedCountry] = useState(null)
 
-  const handleMouseEnter = (geo) => {
+  const handleMouseEnter = (geo: any) => {
     setHoveredCountry(geo.properties.name)
+  }
+  const handleMouseLeave = () => {
+    setHoveredCountry(null)
+  }
+  const handleClick = (geo: any) => {
+    clickedCountry === geo.properties.name
+      ? setClickedCountry(null)
+      : setClickedCountry(geo.properties.name)
   }
 
   return (
     <>
-      <h3>{hoveredCountry}</h3>
-      <ComposableMap>
+      <h3 className="text-slate-200">
+        {hoveredCountry ? hoveredCountry : 'Choose a country'}
+      </h3>
+      <ComposableMap className="w-2/3 bg-slate-800">
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => (
@@ -24,20 +35,23 @@ const Map = () => {
                 key={geo.rsmKey}
                 geography={geo}
                 onMouseEnter={() => handleMouseEnter(geo)}
+                onMouseLeave={() => handleMouseLeave()}
+                onClick={() => handleClick(geo)}
                 style={{
                   default: {
                     fill:
-                      hoveredCountry === geo.properties.name
-                        ? '#FF0000'
+                      hoveredCountry === geo.properties.name ||
+                      clickedCountry === geo.properties.name
+                        ? '#718096'
                         : '#ECEFF1',
                     outline: 'none',
                   },
                   hover: {
-                    fill: '#FF0000',
+                    fill: '#718096',
                     outline: 'none',
                   },
                   pressed: {
-                    fill: '#FF0000',
+                    fill: '#718096',
                     outline: 'none',
                   },
                 }}

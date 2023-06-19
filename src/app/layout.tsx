@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`p-4 bg-white ${inter.className}`}>
+      <body className={`p-4 bg-slate-800 ${inter.className}`}>
         <header>
           <h1>WanderList</h1>
         </header>
